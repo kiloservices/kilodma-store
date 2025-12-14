@@ -107,17 +107,31 @@
   function toggleAuth(){register=!register;authTitle.innerText=register?'Register':'Login'}
 
   function auth(){
-    const u=user.value,p=pass.value
-    if(!u||!p)return alert('Fill all fields')
-    localStorage.setItem('kiloUser',u)
+    const u=user.value.trim(),p=pass.value.trim()
+    if(!u||!p) return alert('Fill all fields')
+
+    if(register){
+      localStorage.setItem('kilo_user_'+u, JSON.stringify({user:u,pass:p}))
+      alert('Account created. You can now login.')
+      register=false
+      authTitle.innerText='Login'
+      return
+    }
+
+    const data = localStorage.getItem('kilo_user_'+u)
+    if(!data) return alert('User not found')
+    const parsed = JSON.parse(data)
+    if(parsed.pass !== p) return alert('Wrong password')
+
+    localStorage.setItem('kilo_session', u)
     auth.style.display='none'
     dashUser.innerText=u
     dashboard.style.display='block'
-    window.scrollTo(0,dashboard.offsetTop)
+    window.scrollTo({top:dashboard.offsetTop,behavior:'smooth'})
   }
 
   function buy(product){
-    alert(product+' purchase simulated. Connect Stripe/PayPal backend here.')
+    window.location.href='https://discord.gg/RVrAQZfYZ2'
   }
 
   tsParticles.load('particles',{particles:{number:{value:70},color:{value:'#ff4d4d'},opacity:{value:.3},size:{value:2},move:{enable:true,speed:.6}}})
