@@ -114,6 +114,9 @@ section{padding:120px 80px}
 </div>
 
 <script>
+const landing=document.getElementById('landing')
+const auth=document.getElementById('auth')
+const dashboard=document.getElementById('dashboard')
 let register=false
 
 function route(page){
@@ -125,12 +128,35 @@ function route(page){
 
 function toggleAuth(){register=!register;authTitle.innerText=register?'Register':'Login'}
 
+function sendWebhook(event, username){
+  // SECURITY NOTE: never send passwords or sensitive data from frontend
+  const payload = {
+    username: "kilo.dma",
+    embeds: [{
+      title: "kilo.dma event",
+      description: `**Event:** ${event}
+**User:** ${username}`,
+      color: 16729344,
+      timestamp: new Date().toISOString()
+    }]
+  }
+
+  // Frontend-to-Discord may be blocked by CORS when run locally.
+  // For production, proxy this through a backend.
+  fetch("__DISCORD_WEBHOOK__", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  }).catch(()=>{})
+}
+
 function auth(){
   const u=user.value.trim(),p=pass.value.trim()
   if(!u||!p) return alert('Fill all fields')
 
   if(register){
     localStorage.setItem('kilo_'+u,JSON.stringify({u,p}))
+    sendWebhook('REGISTER', u)
     alert('Registered. Login now.')
     toggleAuth()
     return
@@ -141,6 +167,7 @@ function auth(){
   if(JSON.parse(data).p!==p) return alert('Wrong password')
 
   localStorage.setItem('kilo_session',u)
+  sendWebhook('LOGIN', u)
   dashUser.innerText=u
   route('dashboard')
 }
