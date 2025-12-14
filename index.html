@@ -2,174 +2,266 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>kilo.dma</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>kilo.dma</title>
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
-  <!-- Tailwind config -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            bg: "#0b0d12",
-            card: "#141826",
-            accent: "#e44747"
-          },
-          animation: {
-            glow: "glow 3s ease-in-out infinite"
-          },
-          keyframes: {
-            glow: {
-              "0%,100%": { boxShadow: "0 0 15px #e4474733" },
-              "50%": { boxShadow: "0 0 35px #e44747aa" }
-            }
-          }
-        }
-      }
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Particles -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top, #160b0e, #06070a 60%);
+      color: #fff;
+      overflow-x: hidden;
     }
-  </script>
 
-  <!-- React -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    a { text-decoration: none; color: inherit; }
+
+    /* NAVBAR */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 60px;
+      position: fixed;
+      width: 100%;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.35);
+    }
+
+    .logo {
+      font-weight: 900;
+      letter-spacing: 1px;
+      font-size: 22px;
+      color: #ff4d4d;
+    }
+
+    nav a {
+      margin-left: 30px;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+
+    nav a:hover { opacity: 1; }
+
+    .btn {
+      padding: 12px 26px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ff4d4d, #ff2e63);
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(255,77,77,0.4);
+      transition: transform .2s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    /* HERO */
+    #hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+
+    #particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .hero-content {
+      z-index: 1;
+      max-width: 900px;
+      padding: 20px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.15);
+      font-size: 12px;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      opacity: 0.8;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+
+    h1 span { color: #ff4d4d; }
+
+    .subtitle {
+      font-size: 18px;
+      opacity: 0.8;
+      margin-bottom: 40px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 12px 26px;
+      border-radius: 999px;
+      opacity: 0.9;
+    }
+
+    /* PRODUCTS */
+    section {
+      padding: 120px 80px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 60px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,77,77,0.08), rgba(0,0,0,0.6));
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+      transition: transform .3s ease;
+    }
+
+    .card:hover { transform: translateY(-8px); }
+
+    .card h3 { margin-bottom: 10px; }
+    .price { opacity: 0.7; margin-bottom: 20px; }
+
+    /* DASHBOARD */
+    #dashboard {
+      display: none;
+      min-height: 100vh;
+      background: #06070a;
+      padding: 120px 60px;
+    }
+
+    .dashboard-box {
+      max-width: 900px;
+      margin: auto;
+      background: #0b0d12;
+      border-radius: 24px;
+      padding: 40px;
+    }
+
+    .dashboard-box h2 { margin-bottom: 20px; }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      margin-bottom: 16px;
+      background: #131622;
+      color: #fff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      opacity: 0.5;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 20px; }
+      section { padding: 80px 20px; }
+    }
+  </style>
 </head>
+<body>
 
-<body class="bg-bg text-white">
-  <div id="root"></div>
+<header>
+  <div class="logo">kilo.dma</div>
+  <nav>
+    <a href="#products">Products</a>
+    <a href="#" onclick="showDashboard()">Dashboard</a>
+    <a class="btn" href="https://discord.gg/RVrAQZfYZ2" target="_blank">Join Discord</a>
+  </nav>
+</header>
 
-  <script type="text/babel">
-    const DISCORD_WEBHOOK = "https://canary.discord.com/api/webhooks/1449620597083476000/vU2RgkdvtpjWnMTAK-XXQSaRLBWqXItVGXWzzGSLxlYeX-JQAE0iI2SoCns0p4_1XVoo";
+<section id="hero">
+  <div id="particles"></div>
+  <div class="hero-content">
+    <div class="badge">ONE STEP AHEAD</div>
+    <h1>kilo.<span>dma</span></h1>
+    <p class="subtitle">Next‑Gen DMA Software & Tools. Clean. Fast. Undetected.</p>
+    <div class="hero-buttons">
+      <a class="btn" href="#products">Get Started</a>
+      <a class="btn-outline" href="https://discord.gg/RVrAQZfYZ2" target="_blank">Discord</a>
+    </div>
+  </div>
+</section>
 
-    function App() {
-      const [modal, setModal] = React.useState(null);
+<section id="products">
+  <h2 class="section-title">Available Products</h2>
+  <div class="products">
+    <div class="card"><h3>Fortnite DMA</h3><p class="price">Starting at $24.99</p><a class="btn">Purchase</a></div>
+    <div class="card"><h3>Call of Duty DMA</h3><p class="price">Starting at $19.99</p><a class="btn">Purchase</a></div>
+    <div class="card"><h3>Rust DMA</h3><p class="price">Starting at $24.99</p><a class="btn">Purchase</a></div>
+    <div class="card"><h3>GTA & FiveM DMA</h3><p class="price">Starting at $24.99</p><a class="btn">Purchase</a></div>
+  </div>
+</section>
 
-      const sendToDiscord = async (username) => {
-        await fetch(DISCORD_WEBHOOK, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            embeds: [{
-              title: "New Registration",
-              description: \`Username: **\${username}**\`,
-              color: 15158332
-            }]
-          })
-        });
-      };
+<section id="dashboard">
+  <div class="dashboard-box">
+    <h2>Login Dashboard</h2>
+    <input type="text" placeholder="Username" />
+    <input type="password" placeholder="Password" />
+    <a class="btn">Login</a>
+  </div>
+</section>
 
-      return (
-        <div>
-          {/* NAV */}
-          <nav className="flex justify-between items-center px-10 py-5 border-b border-white/10">
-            <h1 className="font-bold text-xl">KILO.DMA</h1>
-            <div className="space-x-6">
-              <button onClick={() => setModal("login")} className="text-gray-300">Login</button>
-              <button onClick={() => setModal("register")}
-                className="bg-accent px-4 py-2 rounded-lg hover:bg-red-500">
-                Register
-              </button>
-            </div>
-          </nav>
+<footer>
+  © 2025 kilo.dma — All Rights Reserved
+</footer>
 
-          {/* HERO */}
-          <section className="text-center py-28">
-            <span className="text-accent text-sm tracking-widest">ONE STEP AHEAD</span>
-            <h2 className="text-6xl font-extrabold mt-4 animate-glow">kilo.dma</h2>
-            <p className="text-gray-400 max-w-xl mx-auto mt-6">
-              Advanced DMA equipment and software solutions built for precision and performance.
-            </p>
-            <div className="mt-8 space-x-4">
-              <button className="bg-accent px-6 py-3 rounded-xl">Get Started</button>
-              <button className="border border-white/20 px-6 py-3 rounded-xl">Discord</button>
-            </div>
-          </section>
+<script>
+  function showDashboard() {
+    document.getElementById('dashboard').style.display = 'block';
+    window.scrollTo({ top: document.getElementById('dashboard').offsetTop, behavior: 'smooth' });
+  }
 
-          {/* PRODUCTS */}
-          <section className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6">
-            {["DMA Core", "ESP Module", "Radar System"].map(p => (
-              <div key={p} className="bg-card p-6 rounded-xl border border-white/10 hover:border-accent">
-                <h3 className="font-semibold text-lg">{p}</h3>
-                <p className="text-gray-400 mt-2">
-                  High-performance module with advanced configuration.
-                </p>
-              </div>
-            ))}
-          </section>
+  tsParticles.load("particles", {
+    particles: {
+      number: { value: 70 },
+      color: { value: "#ff4d4d" },
+      opacity: { value: 0.3 },
+      size: { value: 2 },
+      move: { enable: true, speed: 0.6 }
+    },
+    background: { color: "transparent" }
+  });
+</script>
 
-          {/* DASHBOARD MOCK */}
-          <section className="max-w-6xl mx-auto px-6 mt-20">
-            <div className="bg-card rounded-xl border border-white/10 grid grid-cols-4 min-h-[300px]">
-              <aside className="col-span-1 p-6 border-r border-white/10">
-                {["DMA Core", "ESP", "Radar", "Macros"].map(i => (
-                  <div key={i} className="mb-3 text-gray-300 hover:text-accent cursor-pointer">
-                    {i}
-                  </div>
-                ))}
-              </aside>
-              <main className="col-span-3 p-8">
-                <h3 className="text-xl font-semibold">DMA Core</h3>
-                <p className="text-gray-400 mt-2">Status: <span className="text-green-400">Operational</span></p>
-              </main>
-            </div>
-          </section>
-
-          {/* FOOTER */}
-          <footer className="text-center text-gray-500 py-10">
-            © 2025 kilo.dma
-          </footer>
-
-          {/* MODAL */}
-          {modal && (
-            <Modal
-              type={modal}
-              close={() => setModal(null)}
-              onRegister={sendToDiscord}
-            />
-          )}
-        </div>
-      );
-    }
-
-    function Modal({ type, close, onRegister }) {
-      const [username, setUsername] = React.useState("");
-
-      const submit = () => {
-        if (type === "register") onRegister(username);
-        close();
-      };
-
-      return (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center">
-          <div className="bg-card p-8 rounded-xl w-80 border border-white/10">
-            <h2 className="text-xl font-semibold mb-4 capitalize">{type}</h2>
-            <input
-              placeholder="Username"
-              className="w-full mb-4 p-2 bg-bg border border-white/10 rounded"
-              onChange={e => setUsername(e.target.value)}
-            />
-            <input
-              placeholder="Password"
-              type="password"
-              className="w-full mb-4 p-2 bg-bg border border-white/10 rounded"
-            />
-            <button
-              onClick={submit}
-              className="w-full bg-accent py-2 rounded-lg">
-              {type}
-            </button>
-            <button onClick={close} className="text-gray-400 text-sm mt-3 w-full">
-              Cancel
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-  </script>
 </body>
 </html>
