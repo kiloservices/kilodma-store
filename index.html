@@ -2,291 +2,174 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>kilo.dma — Advanced DMA Solutions</title>
+  <title>kilo.dma</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
-    :root {
-      --bg: #0b0d12;
-      --bg-soft: #11141c;
-      --card: #151925;
-      --accent: #e44747;
-      --accent-hover: #ff5c5c;
-      --text: #e6e6eb;
-      --muted: #9aa0b3;
-      --border: #22283a;
+  <!-- Tailwind config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: "#0b0d12",
+            card: "#141826",
+            accent: "#e44747"
+          },
+          animation: {
+            glow: "glow 3s ease-in-out infinite"
+          },
+          keyframes: {
+            glow: {
+              "0%,100%": { boxShadow: "0 0 15px #e4474733" },
+              "50%": { boxShadow: "0 0 35px #e44747aa" }
+            }
+          }
+        }
+      }
     }
+  </script>
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-
-    body {
-      background: radial-gradient(circle at top, #161a2a, #0b0d12 60%);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    /* NAVBAR */
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 48px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    nav .logo {
-      font-weight: 700;
-      font-size: 20px;
-      letter-spacing: 0.5px;
-    }
-
-    nav .links a {
-      margin-left: 24px;
-      text-decoration: none;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    nav .links a.button {
-      padding: 8px 16px;
-      background: var(--accent);
-      color: white;
-      border-radius: 8px;
-    }
-
-    nav .links a.button:hover {
-      background: var(--accent-hover);
-    }
-
-    /* HERO */
-    .hero {
-      text-align: center;
-      padding: 120px 24px 80px;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: rgba(228,71,71,0.15);
-      color: var(--accent);
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-
-    .hero h1 {
-      font-size: 56px;
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
-
-    .hero h1 span {
-      color: var(--accent);
-    }
-
-    .hero p {
-      max-width: 720px;
-      margin: 0 auto 36px;
-      font-size: 18px;
-      color: var(--muted);
-    }
-
-    .hero .actions a {
-      display: inline-block;
-      margin: 0 10px;
-      padding: 14px 28px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .primary {
-      background: var(--accent);
-      color: white;
-    }
-
-    .secondary {
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
-
-    /* DASHBOARD */
-    .dashboard {
-      max-width: 1200px;
-      margin: 0 auto 80px;
-      padding: 0 24px;
-    }
-
-    .dashboard-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      min-height: 480px;
-    }
-
-    /* SIDEBAR */
-    .sidebar {
-      background: var(--bg-soft);
-      padding: 24px;
-      border-right: 1px solid var(--border);
-    }
-
-    .sidebar h3 {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 16px;
-      text-transform: uppercase;
-    }
-
-    .sidebar a {
-      display: block;
-      padding: 10px 12px;
-      margin-bottom: 6px;
-      border-radius: 8px;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 500;
-    }
-
-    .sidebar a.active,
-    .sidebar a:hover {
-      background: rgba(228,71,71,0.15);
-      color: var(--accent);
-    }
-
-    /* CONTENT */
-    .content {
-      padding: 32px;
-    }
-
-    .content h2 {
-      margin-bottom: 12px;
-    }
-
-    .content p {
-      color: var(--muted);
-      margin-bottom: 24px;
-    }
-
-    .settings {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-    }
-
-    .setting-card {
-      background: var(--bg-soft);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-    }
-
-    .setting-card h4 {
-      margin-bottom: 8px;
-    }
-
-    .toggle {
-      margin-top: 12px;
-    }
-
-    .toggle input {
-      margin-right: 8px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 24px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-  </style>
+  <!-- React -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 </head>
-<body>
 
-  <!-- NAV -->
-  <nav>
-    <div class="logo">KILO.DMA</div>
-    <div class="links">
-      <a href="#">Products</a>
-      <a href="#">Guides</a>
-      <a href="#" class="button">Dashboard</a>
-    </div>
-  </nav>
+<body class="bg-bg text-white">
+  <div id="root"></div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="badge">Next-Generation DMA</div>
-    <h1><span>kilo.dma</span></h1>
-    <p>
-      High-performance DMA equipment and software solutions.
-      Built for precision, stability, and advanced configurations.
-    </p>
-    <div class="actions">
-      <a href="#" class="primary">Get Started</a>
-      <a href="#" class="secondary">Join Discord</a>
-    </div>
-  </section>
+  <script type="text/babel">
+    const DISCORD_WEBHOOK = "https://canary.discord.com/api/webhooks/1449620597083476000/vU2RgkdvtpjWnMTAK-XXQSaRLBWqXItVGXWzzGSLxlYeX-JQAE0iI2SoCns0p4_1XVoo";
 
-  <!-- DASHBOARD -->
-  <section class="dashboard">
-    <div class="dashboard-card">
-      <!-- SIDEBAR -->
-      <div class="sidebar">
-        <h3>Modules</h3>
-        <a class="active" href="#">DMA Core</a>
-        <a href="#">ESP Module</a>
-        <a href="#">Radar</a>
-        <a href="#">Trigger System</a>
-        <a href="#">Macros</a>
-      </div>
+    function App() {
+      const [modal, setModal] = React.useState(null);
 
-      <!-- CONTENT -->
-      <div class="content">
-        <h2>DMA Core</h2>
-        <p>Primary configuration for your DMA equipment.</p>
+      const sendToDiscord = async (username) => {
+        await fetch(DISCORD_WEBHOOK, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            embeds: [{
+              title: "New Registration",
+              description: \`Username: **\${username}**\`,
+              color: 15158332
+            }]
+          })
+        });
+      };
 
-        <div class="settings">
-          <div class="setting-card">
-            <h4>Enable DMA</h4>
-            <div class="toggle">
-              <label><input type="checkbox" checked> Active</label>
+      return (
+        <div>
+          {/* NAV */}
+          <nav className="flex justify-between items-center px-10 py-5 border-b border-white/10">
+            <h1 className="font-bold text-xl">KILO.DMA</h1>
+            <div className="space-x-6">
+              <button onClick={() => setModal("login")} className="text-gray-300">Login</button>
+              <button onClick={() => setModal("register")}
+                className="bg-accent px-4 py-2 rounded-lg hover:bg-red-500">
+                Register
+              </button>
             </div>
-          </div>
+          </nav>
 
-          <div class="setting-card">
-            <h4>Connection Mode</h4>
-            <p>PCIe / External Bridge</p>
-          </div>
+          {/* HERO */}
+          <section className="text-center py-28">
+            <span className="text-accent text-sm tracking-widest">ONE STEP AHEAD</span>
+            <h2 className="text-6xl font-extrabold mt-4 animate-glow">kilo.dma</h2>
+            <p className="text-gray-400 max-w-xl mx-auto mt-6">
+              Advanced DMA equipment and software solutions built for precision and performance.
+            </p>
+            <div className="mt-8 space-x-4">
+              <button className="bg-accent px-6 py-3 rounded-xl">Get Started</button>
+              <button className="border border-white/20 px-6 py-3 rounded-xl">Discord</button>
+            </div>
+          </section>
 
-          <div class="setting-card">
-            <h4>Update Rate</h4>
-            <p>5 ms</p>
-          </div>
+          {/* PRODUCTS */}
+          <section className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6">
+            {["DMA Core", "ESP Module", "Radar System"].map(p => (
+              <div key={p} className="bg-card p-6 rounded-xl border border-white/10 hover:border-accent">
+                <h3 className="font-semibold text-lg">{p}</h3>
+                <p className="text-gray-400 mt-2">
+                  High-performance module with advanced configuration.
+                </p>
+              </div>
+            ))}
+          </section>
 
-          <div class="setting-card">
-            <h4>Status</h4>
-            <p style="color:#4cff8f;">Operational</p>
+          {/* DASHBOARD MOCK */}
+          <section className="max-w-6xl mx-auto px-6 mt-20">
+            <div className="bg-card rounded-xl border border-white/10 grid grid-cols-4 min-h-[300px]">
+              <aside className="col-span-1 p-6 border-r border-white/10">
+                {["DMA Core", "ESP", "Radar", "Macros"].map(i => (
+                  <div key={i} className="mb-3 text-gray-300 hover:text-accent cursor-pointer">
+                    {i}
+                  </div>
+                ))}
+              </aside>
+              <main className="col-span-3 p-8">
+                <h3 className="text-xl font-semibold">DMA Core</h3>
+                <p className="text-gray-400 mt-2">Status: <span className="text-green-400">Operational</span></p>
+              </main>
+            </div>
+          </section>
+
+          {/* FOOTER */}
+          <footer className="text-center text-gray-500 py-10">
+            © 2025 kilo.dma
+          </footer>
+
+          {/* MODAL */}
+          {modal && (
+            <Modal
+              type={modal}
+              close={() => setModal(null)}
+              onRegister={sendToDiscord}
+            />
+          )}
+        </div>
+      );
+    }
+
+    function Modal({ type, close, onRegister }) {
+      const [username, setUsername] = React.useState("");
+
+      const submit = () => {
+        if (type === "register") onRegister(username);
+        close();
+      };
+
+      return (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center">
+          <div className="bg-card p-8 rounded-xl w-80 border border-white/10">
+            <h2 className="text-xl font-semibold mb-4 capitalize">{type}</h2>
+            <input
+              placeholder="Username"
+              className="w-full mb-4 p-2 bg-bg border border-white/10 rounded"
+              onChange={e => setUsername(e.target.value)}
+            />
+            <input
+              placeholder="Password"
+              type="password"
+              className="w-full mb-4 p-2 bg-bg border border-white/10 rounded"
+            />
+            <button
+              onClick={submit}
+              className="w-full bg-accent py-2 rounded-lg">
+              {type}
+            </button>
+            <button onClick={close} className="text-gray-400 text-sm mt-3 w-full">
+              Cancel
+            </button>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      );
+    }
 
-  <footer>
-    © 2025 kilo.dma — All rights reserved.
-  </footer>
-
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
 </body>
 </html>
